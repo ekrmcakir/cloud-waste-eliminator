@@ -30,40 +30,41 @@ An automated, serverless FinOps & Cloud Governance platform that continuously au
 
 ```mermaid
 flowchart TD
-    subgraph Trigger & Scheduling
-        EB[EventBridge Cron\nNightly at 03:00 UTC]
-        CLI[Cloud Engineer / FinOps CLI]
+    subgraph Trigger_Scheduling ["Trigger & Scheduling"]
+        EB["EventBridge Cron (Nightly 03:00 UTC)"]
+        CLI["Cloud Engineer / FinOps CLI"]
     end
 
-    subgraph Serverless Detection Engine
-        Scanner[Scanner Lambda\nPython 3.12]
-        Guardrails[Safety Guardrails & Tag Filters\nDoNotDelete / Prod Shield]
-        Pricing[FinOps Pricing Engine\nExact AWS us-east-1 Rates]
-        AI[FinOps AI Advisor\nAmazon Bedrock / Fallback Heuristic]
+    subgraph Detection_Engine ["Serverless Detection Engine"]
+        Scanner["Scanner Lambda (Python 3.12)"]
+        Pricing["FinOps Pricing Engine (AWS Rates)"]
+        Guardrails["Safety Guardrails (Tag & Prod Shield)"]
+        AI["FinOps AI Advisor (Amazon Bedrock)"]
     end
 
-    subgraph Target AWS Infrastructure
-        EBS[(Unattached EBS Volumes\nStatus: Available)]
-        EIP[Unallocated Elastic IPs\nHourly Reservation Penalty]
-        RDS[(Idle RDS Databases\n< 2% CPU, 0 Connections)]
-        Lambda[Over-provisioned Lambdas\nMemory Slack > 60%]
+    subgraph AWS_Resources ["Target AWS Infrastructure"]
+        EBS[("Unattached EBS Volumes")]
+        EIP["Unallocated Elastic IPs"]
+        RDS[("Idle RDS Databases")]
+        Lambda["Over-provisioned Lambdas"]
     end
 
-    subgraph Persistence & Approval Lifecycle
-        DDB[(DynamoDB Findings Table\nPENDING_APPROVAL)]
-        Approver[Admin Reviewer\nWebhook / Terminal Approval]
-        Remediator[Remediation Lambda\nSnapshot-First Safety]
+    subgraph State_Approval ["Persistence & Approval Lifecycle"]
+        DDB[("DynamoDB Findings Table")]
+        Approver["Admin Reviewer (Human-in-the-Loop)"]
+        Remediator["Remediation Lambda (Safe Executor)"]
     end
 
     EB --> Scanner
+    CLI --> Scanner
     Scanner --> EBS & EIP & RDS & Lambda
     Scanner --> Pricing
     Pricing --> Guardrails
     Guardrails --> AI
     AI --> DDB
     DDB --> Approver
-    Approver -->|APPROVE| Remediator
-    Remediator -->|Snapshot -> Delete / Stop / Rightsize| Target AWS Infrastructure
+    Approver -->|Approve Action| Remediator
+    Remediator -->|Execute Remediation| EBS & EIP & RDS & Lambda
 ```
 
 ---
