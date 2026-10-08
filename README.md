@@ -1,11 +1,13 @@
 # 💡 Event-Driven FinOps & Cloud Waste Eliminator
 
+[![CI Pipeline](https://github.com/ekrmcakir/cloud-waste-eliminator/actions/workflows/ci.yml/badge.svg)](https://github.com/ekrmcakir/cloud-waste-eliminator/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![Terraform 1.5+](https://img.shields.io/badge/terraform-1.5%2B-purple.svg)](https://www.terraform.io/)
 [![AWS Serverless](https://img.shields.io/badge/AWS-Serverless-orange.svg)](https://aws.amazon.com/)
 [![AWS Bedrock](https://img.shields.io/badge/AI-Amazon%20Bedrock-blueviolet.svg)](https://aws.amazon.com/bedrock/)
 [![Code Style: Flake8](https://img.shields.io/badge/code%20style-flake8-black.svg)](https://flake8.pycqa.org/)
+
 
 An automated, serverless FinOps & Cloud Governance platform that continuously audits AWS infrastructure for unoptimized and idle resources (unattached EBS volumes, disassociated Elastic IPs, idle RDS instances, and over-provisioned Lambda memory). It calculates monthly recoverable spend, leverages AI reasoning (Amazon Bedrock) for context-aware rightsizing recommendations, and executes safe remediation workflows with human-in-the-loop approval.
 
